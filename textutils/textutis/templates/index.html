@@ -44,7 +44,8 @@
 
 <!--<div class="container-fluid">              I have commented -->
 <div class="container">
-  <form action="/analyze" method="get">
+<!--  <form action="/analyze" method="get">-->
+  <form action="/analyze" method="post"> {% csrf_token %}
     <div class="form-group">
       <label for="exampleFormControlTextarea1">Enter Your Text Here and let Textutils do the magic</label>
       <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="9"></textarea>

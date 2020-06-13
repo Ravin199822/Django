@@ -1,0 +1,81 @@
+blog and shop is my app
+mac is my project
+Static directory is must for any website, it is used for putting images and any otheer static elements.
+CDN --> Content Dilivery Network
+model in django---> https://docs.djangoprojecct.com/en/2.1/topics/db/models
+
+
+migration ---> stores future updations of database
+we can also make our migrations, it means we can save changes of model but we haven't touch(change) database, it means we haven't applied changes yet
+
+
+
+commands
+django-admin  ----> to see all command
+django-admin startproject project_name ----> to create project
+python manage.py runserver  ----> to run server
+python manage.py startapp app_name ---> to create app in our project
+python manage.py makemigrations ----> store migration in file in 0001_initial.py, but don't write in database only store in file(not change in database)
+python manage.py migrate  ----> to apply all migration(to change in database)
+
+we can see migration's changes by using admin panel(super user)
+python manage.py createsuperuser ---> to create superuser(admin panel)
+
+
+if we make any model(table) in model.py, we have to registered our model in admin.py
+
+
+# windows powershell commands(getching products using manage.py shell)
+open poweshell in admin mode
+
+cd ~ ---> (cd trild) it is used to go in homedirectory
+go to the project
+cd F://
+cd .\PycharmProjects\
+cd .\Myawesomecart\
+cd mac
+python manage.py shell ----> (open project in powershell)
+( we can use shell for testing on the fly)(we can test our model)
+
+from shop.models import Product
+Product.objects.all()           # o/p: <QuerySet [<Product: watch>, <Product: Ghadi>, <Product: watch2>]>
+from django.utils import timezone   # ti omport timezone
+myprod=Product(product_name='mouse', category='computer', subcategory='devices',price=500,desc='chooha hai ae', pub_date=timezone.now())   ---->
+myprod.save()
+
+myprod.product_name    # o/p: 'mouse'
+myprod.product_id      # o/p: <class 'django.db.models.fields.AutoField'>
+Product.objects.all()  # o/p: <QuerySet [<Product: watch>, <Product: Ghadi>, <Product: watch2>, <Product: mouse>]>
+Product.objects.get(product_name='mouse')    # to retrive object which has name mouse
+
+
+a=Product.objects.get(product_name='mouse')
+a.category           # o/p: 'computer'
+
+
+
+
+
+
+# Logic for showing products on homepage
+
+1) Np of slides
+- there are 4 items in one slide
+- if we have n items we will have (n//4)+1 slides if n is not divisible by 4
+- But if n is divisible by 4, we have n//4 slides
+- so the formula for no of slides will be n//4+ceil(n/4-n//4) where ceil is least integer function
+
+2) Python logic
+- we will display first item by default nad give it the active tag
+- the next items will be fetched using for loop
+- we will fetch all the details from the database and will show them in the homepage
+- Later we will do the same thing category wise
+
+
+
+
+
+For cart
+# localStorage.setItem('Rav','in')     # store in key value pair
+# localStorage.getItem('Rav')
+# o/p: "in"

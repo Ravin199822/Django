@@ -258,14 +258,16 @@ def index(request):
 def analyze(request):
     # Get the text
     # print(request.GET.get('text','default'))    # if text is empty we wil get default    # this line will return text which is in textare(in templet of index.html)
-    djtext=request.GET.get('text','default')
+    # djtext=request.GET.get('text','default')    # for get method
+    djtext=request.POST.get('text','default')     # for post method
+
 
     # Check checkbox values
-    removepunc=request.GET.get('removepunc', 'off')             # checkbox has off as default value
-    fullcaps=request.GET.get('fullcaps', 'off')
-    newlineremover=request.GET.get('newlineremover', 'off')
-    extraspaceremover=request.GET.get('extraspaceremover','off')
-    charcount=request.GET.get('charcount','off')
+    removepunc=request.POST.get('removepunc', 'off')             # checkbox has off as default value
+    fullcaps=request.POST.get('fullcaps', 'off')
+    newlineremover=request.POST.get('newlineremover', 'off')
+    extraspaceremover=request.POST.get('extraspaceremover','off')
+    charcount=request.POST.get('charcount','off')
 
 
     # Analyz the text
@@ -275,9 +277,11 @@ def analyze(request):
         punctuations = '''!()-[]{};:'"\,<>./?@#$%^&*_~'''
         analyzed=""
         for char in djtext:
-            if char not in punctuations:
-                analyzed=analyzed+char
+            if char not in punctuations:                                  # here is a bug i  our website like when we entered text which has lot of spaceline in our text area and we choosed
+                analyzed=analyzed+char                                    # removepuctuation option, and we get output with removed new lines, but this is a bug beacuse we called only removed punctuations
+                # print(analyzed)                                           # we got this bug just because of html, because html bydefault remove new lines from our text, we can overcome this problem using <pre> tag in html.
         params={'purpose':'Removed Punctuations', 'analyzed_text':analyzed}
+        # print(params)
         return render(request, 'analyze.html', params)              # we can pass thirdparameter in render wich shold be dictionary
 
     if fullcaps == 'on':
@@ -290,7 +294,7 @@ def analyze(request):
     elif newlineremover == 'on':
         analyzed=''
         for char in djtext:
-            if char != '\n':
+            if char != '\n' and char!='\r':
                 analyzed=analyzed+char
         params={'purpose':'Removed New Lines','analyzed_text':analyzed}
         return render(request,'analyze.html',params)
@@ -319,3 +323,12 @@ def analyze(request):
 
     else:
         return HttpResponse("Error")
+
+
+
+# Difference between get request and post request
+# GET ---> default behaviour of form(it shows on url)
+# Post ----> for send password(it send also additional msges with password)(not shows on url(it means our sended password will not show on url)
+
+# We should use post request because if we will use get request and out text is too too long then some servers return error like url is too long because get send data in url, so we have to  use post method to overcome this problem.
+# But in Post method, django provide CSRF(Cross Site Request Forgery) mechanism for security, for this we have to write {% csrf_token %} after form tag in form
